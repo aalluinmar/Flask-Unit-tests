@@ -13,3 +13,7 @@ Flask Unit tests using python unittest
 
    coverage report -m
    
+
+#### References for mocking database
+  
+  https://docs.python.org/3/library/unittest.mock-examples.html
