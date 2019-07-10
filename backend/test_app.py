@@ -30,7 +30,6 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         response = tester.post('/register', data=payload, headers = header)
         final_output = json.loads(response.data)
-        # print(final_output['result']['email'])
         self.assertEqual(response.status_code, 200)
         self.assertEqual(final_output['result']['email'], 'alleba@gmail.com')
 
@@ -47,9 +46,9 @@ class FlaskTestCase(unittest.TestCase):
         header={ "Content-Type": "application/json"}
         tester = app.test_client(self)
         response = tester.post('/register', data=payload, headers = header)
-        # print(response.data)
+        final_output = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data,  b'{\n  "result": "Please provide valid email : allebagmail.com"\n}\n')
+        self.assertEqual(final_output['result'],  'Please provide valid email : allebagmail.com')
     
     #checking the register by missing column Values
     @patch('db.connection', return_value =  True)
@@ -63,9 +62,9 @@ class FlaskTestCase(unittest.TestCase):
         header={ "Content-Type": "application/json"}
         tester = app.test_client(self)
         response = tester.post('/register', data=payload, headers = header)
-        # print(response.data)
+        final_output = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, b'{\n  "result": "Please provide name"\n}\n')
+        self.assertEqual(final_output['result'], 'Please provide name')
 
     #checking the register for checking existing email
     @patch('db.connection', return_value =  True)
@@ -82,9 +81,9 @@ class FlaskTestCase(unittest.TestCase):
             header={ "Content-Type": "application/json"}
             tester = app.test_client(self)
             response = tester.post('/register', data=payload, headers = header)
-            # print(response.data)
+            final_output = json.loads(response.data)
             self.assertEqual(response.status_code, 200)
-            self.assertEqual(response.data, b'{\n  "result": "email is already exists!"\n}\n')
+            self.assertEqual(final_output['result'], 'email is already exists!')
 
 
 if __name__ == "__main__":
